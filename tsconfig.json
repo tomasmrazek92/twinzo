@@ -1,0 +1,16 @@
+{
+  "extends": "@finsweet/tsconfig",
+  "compilerOptions": {
+    "noImplicitThis": false,
+    "esModuleInterop": true,
+    "strict": true,
+    "useUnknownInCatchVariables": false,
+    "rootDir": ".",
+    "checkJs": false,
+    "baseUrl": "./",
+    "paths": {
+      "$utils/*": ["src/utils/*"]
+    },
+    "types": ["@finsweet/ts-utils", "jquery", "gsap", "swiper"]
+  }
+}
