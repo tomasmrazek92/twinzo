@@ -19,6 +19,7 @@ specifiers:
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-simple-import-sort: ^10.0.0
   gsap: ^3.11.5
+  luxon: ^3.3.0
   prettier: ^2.8.4
   run: ^1.4.0
   swiper: ^9.1.1
@@ -27,6 +28,7 @@ specifiers:
 dependencies:
   '@finsweet/ts-utils': 0.39.0
   gsap: 3.11.5
+  luxon: 3.4.4
   run: 1.4.0
   swiper: 9.2.4
 
@@ -1989,6 +1991,11 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /luxon/3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /map-obj/1.0.1:
     resolution: {integrity: sha512-7N/q3lyZ+LVCp7PzuxrJr4KMbBE2hW7BT7YNia330OFxIf4d3r5zVpicP2650l7CPN6RM9zOJRl3NGpqSiw3Eg==}
