@@ -82,6 +82,7 @@ $(document).ready(function () {
     const step01 = () => {
       let heroVisual = $('.hp-hero_visual');
       let heroPhone = $('.hp-hero_phone');
+      let heroVideo = $('.hp-hero_phone-video');
 
       let tl = gsap.timeline({
         scrollTrigger: {
@@ -99,6 +100,7 @@ $(document).ready(function () {
         tl.to(heroVisual, { height: '200%' });
       }
       tl.to(heroPhone, { rotate: -90, y: '-4rem' }, '<');
+      tl.to(heroVideo, { rotate: 90 }, '<');
     };
 
     const step01_01 = () => {
