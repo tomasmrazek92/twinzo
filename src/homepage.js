@@ -97,7 +97,7 @@ $(document).ready(function () {
       if (isDesktop) {
         tl.to(heroVisual, { width: '200%' });
       } else {
-        tl.to(heroVisual, { height: '200%' });
+        tl.to(heroVisual, { height: '200%', paddingTop: '0%' });
       }
       tl.to(heroPhone, { rotate: -90, y: '-4rem' }, '<');
       tl.to(heroVideo, { rotate: 90 }, '<');
@@ -177,6 +177,7 @@ $(document).ready(function () {
     };
 
     const step02_02 = () => {
+      let heroPhone = $('.hp-steps_visual-inner');
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroSteps.eq(1),
@@ -195,6 +196,7 @@ $(document).ready(function () {
     };
 
     const step02_03 = () => {
+      let heroPhone = $('.hp-steps_visual-inner');
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroSteps.eq(1),
