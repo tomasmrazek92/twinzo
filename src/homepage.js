@@ -443,18 +443,37 @@ $(document).ready(function () {
   // ___ Refresh the page on resize
   function debounce(func, wait) {
     let timeout;
-    return function (...args) {
+    return function () {
+      const context = this;
+      const args = arguments;
+      const later = function () {
+        timeout = null;
+        func.apply(context, args);
+      };
       clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
+      timeout = setTimeout(later, wait);
     };
   }
 
-  window.addEventListener(
+  // Store the initial width when the page loads
+  var initialWidth = $(window).width();
+
+  $(window).on(
     'resize',
     debounce(function () {
-      location.reload();
+      // Get the current width
+      var currentWidth = $(window).width();
+
+      // If we are under 991 we want to reload the page only if the width changes (not height)
+      if (currentWidth <= 991) {
+        if (currentWidth !== initialWidth) {
+          location.reload();
+        }
+      } else {
+        // If we are above 991, just reload the page regardless of width or height changes
+        location.reload();
+      }
     }, 300)
   );
-
   // #endregion
 });
