@@ -10,7 +10,6 @@ let tl = gsap.timeline({
     end: 'bottom bottom',
     invalidateOnRefresh: true,
     scrub: 1,
-    markers: true,
   },
 });
 

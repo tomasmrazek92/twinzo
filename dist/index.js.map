@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../bin/live-reload.js", "../src/index.js"],
-  "sourcesContent": ["new EventSource(`${SERVE_ORIGIN}/esbuild`).addEventListener('change', () => location.reload());\n", "let menuOpen = false;\nlet openClass = 'open';\n\n$('.nav_ham')\n  .add('.nav_link')\n  .on('click', function () {\n    openMenu();\n  });\n\nconst openMenu = () => {\n  if ($(window).width() < 992) {\n    if (!menuOpen) {\n      $('.nav').addClass('open');\n    } else {\n      $('.nav').removeClass('open');\n    }\n    menuOpen = !menuOpen;\n  }\n};\n"],
-  "mappings": ";;;AAAA,MAAI,YAAY,GAAG,iCAAsB,EAAE,iBAAiB,UAAU,MAAM,SAAS,OAAO,CAAC;;;ACA7F,MAAI,WAAW;AAGf,IAAE,UAAU,EACT,IAAI,WAAW,EACf,GAAG,SAAS,WAAY;AACvB,aAAS;AAAA,EACX,CAAC;AAEH,MAAM,WAAW,MAAM;AACrB,QAAI,EAAE,MAAM,EAAE,MAAM,IAAI,KAAK;AAC3B,UAAI,CAAC,UAAU;AACb,UAAE,MAAM,EAAE,SAAS,MAAM;AAAA,MAC3B,OAAO;AACL,UAAE,MAAM,EAAE,YAAY,MAAM;AAAA,MAC9B;AACA,iBAAW,CAAC;AAAA,IACd;AAAA,EACF;",
-  "names": []
-}

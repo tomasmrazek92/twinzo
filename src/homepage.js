@@ -67,8 +67,9 @@ $(document).ready(function () {
       tl = gsap.timeline({
         scrollTrigger: {
           trigger: $('.hero_step').eq(2),
-          start: 'top top',
+          start: 'top center',
           end: 'bottom top',
+          markers: true,
           scrub: true,
         },
       });
@@ -200,12 +201,14 @@ $(document).ready(function () {
           trigger: heroSteps.eq(1),
           start: 'top top',
           toggleActions: 'play none none reverse',
+          markers: true,
         },
       });
 
-      gsap.set(section, { opacity: 0 });
+      gsap.set(section, { opacity: 0, pointerEvents: 'none', marginTop: '-50vh' });
+      lenis.resize();
 
-      tl.to(section, { opacity: 1, duration: 0, delay: 0.2 });
+      tl.to(section, { pointerEvents: 'auto', opacity: 1, duration: 0, delay: 0.2 });
     };
     const step02_00 = () => {
       let section = $('.cc-hp-steps');
@@ -265,6 +268,8 @@ $(document).ready(function () {
         scrollTrigger: {
           trigger: heroSteps.eq(1),
           start: '66% top',
+          end: 'bottom center',
+          markers: true,
           toggleActions: 'play none none none',
           onLeaveBack: () => {
             $('.hp-steps_head-item').eq(2).removeClass('active');

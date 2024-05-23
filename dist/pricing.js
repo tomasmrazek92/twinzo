@@ -1,0 +1,1 @@
+"use strict";(()=>{var e=gsap.timeline({paused:!0});e.to(".pricing_price-tag",{yPercent:-100});$("#yearly").on("click",function(){e.reverse(),$(".pricing_toggle-item").removeClass("cc-active"),$(this).addClass("cc-active")});$("#monthly").on("click",function(){e.play(),$(".pricing_toggle-item").removeClass("cc-active"),$(this).addClass("cc-active")});})();
