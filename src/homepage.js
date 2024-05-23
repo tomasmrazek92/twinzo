@@ -1,8 +1,53 @@
+// #region Prealoder
+let repeatCount = 0;
+let isWindowLoaded = false;
+let preloader = gsap.timeline({
+  defaults: { duration: 0.5 },
+  paused: true,
+  repeat: -1, // Will repeat indefinitely until we decide to stop it
+  onRepeat: function () {
+    repeatCount++; // Increment the counter each time the timeline repeats
+    if (repeatCount >= 2 && isWindowLoaded) {
+      this.repeat(0);
+      hidePreloader();
+    }
+  },
+});
+
+const hidePreloader = () => {
+  $('.page-load').fadeOut('slow', () => {
+    lenis.start();
+  });
+};
+
+// Setup the animation sequence
+preloader
+  .to('.page-load_logo', { opacity: 1, stagger: 0.2 })
+  .to('.page-load_t', { width: '100%' })
+  .to('.page-load_logo', { opacity: 1 }, '<')
+  .to('.page-load_brand', { opacity: 0 });
+
+// Init
+$(document).ready(function () {
+  preloader.play();
+});
+
+// when repeatCount hits 2 start checking/waiting for the window load
+$(window).on('load', function () {
+  isWindowLoaded = true; // Set the window load flag to true
+});
+
+// #endregion
+
 $(document).ready(function () {
   // #region HeroAnimation
   function HeroAnimation() {
     let heroSteps = $('.hero_step');
     let isDesktop = $(window).width() > 991;
+
+    if (isDesktop) {
+      gsap.set($('.nav_logo'), { color: 'white' }, '<');
+    }
 
     // Functions
     function flipPhone() {
@@ -48,34 +93,39 @@ $(document).ready(function () {
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroSteps.eq(0),
-          start: 'top top',
+          start: isDesktop ? 'top top-8px' : '75% top',
           end: 'center top',
           invalidateOnRefresh: true,
-          toggleActions: 'play none none reverse',
+          scrub: isDesktop ? 1 : false,
           onEnter: () => {
-            $('.nav').addClass('scrolled');
+            $('.nav').addClass('dark');
             $('.nav').addClass('pushed');
           },
           onLeaveBack: () => {
-            $('.nav').removeClass('scrolled');
+            $('.nav').removeClass('dark');
             $('.nav').removeClass('pushed');
           },
         },
       });
-      tl.fromTo($('.nav_logo'), { color: 'white' }, { color: 'inherit' });
-      tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '90%' }, '<');
-      tl.fromTo(
-        $('.nav_menu-button-mask'),
-        { width: 0 },
-        { width: $('[data-nav-btn]').outerWidth() },
-        '<'
-      );
-      tl.fromTo(
-        $('[data-nav-btn]'),
-        { xPercent: '100%', opacity: 0 },
-        { xPercent: '0%', opacity: 1 },
-        '<'
-      );
+      tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '90%' });
+      if (isDesktop) {
+        tl.set($('.nav_logo'), { color: 'white' }, '<');
+      }
+      if (isDesktop) {
+        tl.fromTo($('.nav_menu-button-mask'), { width: 0 }, { width: 'auto' }, '<');
+      }
+      tl.to($('.nav_logo-t'), { width: 'auto' }, '<');
+      tl.to($('.nav_logo-mask').eq(1), { width: 0 }, '<');
+      if (isDesktop) {
+        tl.fromTo(
+          $('[data-nav-btn]'),
+          { xPercent: '100%', opacity: 0 },
+          { xPercent: '0%', opacity: 1 },
+          '<'
+        );
+      }
+      tl.fromTo($('.nav_bg'), { opacity: 0 }, { opacity: 1, duration: 0.1 }, '<');
+      tl.set($('.nav_logo'), { color: 'inherit' });
     };
 
     // 01
@@ -90,7 +140,9 @@ $(document).ready(function () {
           start: 'top top',
           end: 'bottom top',
           scrub: 1,
-          onLeave: adjustImages,
+          onLeave: () => {
+            adjustImages();
+          },
         },
       });
 
@@ -98,6 +150,12 @@ $(document).ready(function () {
         tl.to(heroVisual, { width: '200%' });
       } else {
         tl.to(heroVisual, { height: '200%', paddingTop: '0%' });
+        tl.fromTo(
+          heroVisual,
+          { borderTopLeftRadius: '1.6rem', borderTopRightRadius: '1.6rem' },
+          { borderTopLeftRadius: '0rem', borderTopRightRadius: '0rem' },
+          '<'
+        );
       }
       tl.to(heroPhone, { rotate: -90, y: '-4rem' }, '<');
       tl.to(heroVideo, { rotate: 90 }, '<');
@@ -128,6 +186,13 @@ $(document).ready(function () {
         },
       });
     };
+    const revealStepVideo = (index) => {
+      let stepsVideo = $('.hp-steps_phone-video');
+      let tl = gsap.timeline();
+      tl.to(stepsVideo, { opacity: 0, duration: 0.2 });
+      tl.to(stepsVideo.eq(index), { opacity: 1, duration: 0.2 });
+      return tl;
+    };
     const step02 = () => {
       let section = $('.cc-hp-steps');
       let tl = gsap.timeline({
@@ -142,7 +207,6 @@ $(document).ready(function () {
 
       tl.to(section, { opacity: 1, duration: 0, delay: 0.2 });
     };
-
     const step02_00 = () => {
       let section = $('.cc-hp-steps');
       let tl = gsap.timeline({
@@ -160,7 +224,6 @@ $(document).ready(function () {
         '<'
       );
     };
-
     const step02_01 = () => {
       let tl = gsap.timeline({
         scrollTrigger: {
@@ -171,11 +234,11 @@ $(document).ready(function () {
           toggleClass: { targets: $('.hp-steps_head-item').eq(0), className: 'active' },
           onEnterBack: () => {
             dataStepAnimation('data-paragraph-01');
+            revealStepVideo(0);
           },
         },
       });
     };
-
     const step02_02 = () => {
       let heroPhone = $('.hp-steps_visual-inner');
       let tl = gsap.timeline({
@@ -187,14 +250,15 @@ $(document).ready(function () {
           toggleClass: { targets: $('.hp-steps_head-item').eq(1), className: 'active' },
           onEnter: () => {
             dataStepAnimation('data-paragraph-02');
+            revealStepVideo(1);
           },
           onEnterBack: () => {
             dataStepAnimation('data-paragraph-02');
+            revealStepVideo(1);
           },
         },
       });
     };
-
     const step02_03 = () => {
       let heroPhone = $('.hp-steps_visual-inner');
       let tl = gsap.timeline({
@@ -212,6 +276,7 @@ $(document).ready(function () {
             $('.section.cc-hp-steps').addClass('cc-fullscreen');
             $('.nav').removeClass('pushed');
             dataStepAnimation('data-paragraph-03');
+            revealStepVideo(2);
           },
           onLeave: flipPhone,
         },
@@ -303,13 +368,12 @@ $(document).ready(function () {
           trigger: $('.hp-types_wall'),
           start: 'top top',
           toggleActions: 'play none none reverse',
-          markers: true,
           onEnter: () => {
-            $('.nav').removeClass('scrolled');
+            $('.nav').removeClass('dark');
             $('.nav').addClass('fixed');
           },
           onLeaveBack: () => {
-            $('.nav').addClass('scrolled');
+            $('.nav').addClass('dark');
             $('.nav').removeClass('fixed');
           },
         },
@@ -343,7 +407,7 @@ $(document).ready(function () {
     let typesSection = $('.hp-types_wall');
     let heading = typesSection.find('h2');
     let headingText = heading.attr('data-headline-text').split(',');
-    let image = $('.hp-types_visual img');
+    let image = $('.hp-types_visual .hp-types_phone-video');
 
     const typesStepAnimation = (index) => {
       let tl = gsap.timeline();
@@ -352,11 +416,14 @@ $(document).ready(function () {
         opacity: 0,
         duration: 0.3,
       });
+      tl.to(image, { opacity: 0, duration: 0.3 }, '<');
       tl.to(heading, { text: headingText[index], duration: 0 });
-      tl.to([heading, image.eq(index)], { yPercent: 0, opacity: 1 });
+      tl.to(heading, { yPercent: 0, opacity: 1 });
+      tl.to(image[index], { opacity: 1 }, '<');
       return tl;
     };
 
+    // Text
     let main = gsap.timeline({
       scrollTrigger: {
         trigger: typesSection,
@@ -455,7 +522,6 @@ $(document).ready(function () {
     };
   }
 
-  // Store the initial width when the page loads
   var initialWidth = $(window).width();
 
   $(window).on(
@@ -475,5 +541,9 @@ $(document).ready(function () {
       }
     }, 300)
   );
+  $(window).on('beforeunload', function () {
+    $(window).scrollTop(0);
+  });
+
   // #endregion
 });
