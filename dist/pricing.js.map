@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../bin/live-reload.js", "../src/pricing.js"],
+  "sourcesContent": ["new EventSource(`${SERVE_ORIGIN}/esbuild`).addEventListener('change', () => location.reload());\n", "let tl = gsap.timeline({ paused: true });\n\ntl.to('.pricing_price-tag', { yPercent: -100 });\n\n$('#yearly').on('click', function () {\n  tl.reverse();\n\n  $('.pricing_toggle-item').removeClass('cc-active');\n  $(this).addClass('cc-active');\n});\n\n$('#monthly').on('click', function () {\n  tl.play();\n\n  $('.pricing_toggle-item').removeClass('cc-active');\n  $(this).addClass('cc-active');\n});\n"],
+  "mappings": ";;;AAAA,MAAI,YAAY,GAAG,iCAAsB,EAAE,iBAAiB,UAAU,MAAM,SAAS,OAAO,CAAC;;;ACA7F,MAAI,KAAK,KAAK,SAAS,EAAE,QAAQ,KAAK,CAAC;AAEvC,KAAG,GAAG,sBAAsB,EAAE,UAAU,KAAK,CAAC;AAE9C,IAAE,SAAS,EAAE,GAAG,SAAS,WAAY;AACnC,OAAG,QAAQ;AAEX,MAAE,sBAAsB,EAAE,YAAY,WAAW;AACjD,MAAE,IAAI,EAAE,SAAS,WAAW;AAAA,EAC9B,CAAC;AAED,IAAE,UAAU,EAAE,GAAG,SAAS,WAAY;AACpC,OAAG,KAAK;AAER,MAAE,sBAAsB,EAAE,YAAY,WAAW;AACjD,MAAE,IAAI,EAAE,SAAS,WAAW;AAAA,EAC9B,CAAC;",
+  "names": []
+}

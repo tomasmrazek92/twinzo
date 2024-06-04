@@ -69,7 +69,6 @@ $(document).ready(function () {
           trigger: $('.hero_step').eq(2),
           start: 'top center',
           end: 'bottom top',
-          markers: true,
           scrub: true,
         },
       });
@@ -109,22 +108,6 @@ $(document).ready(function () {
         },
       });
       tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '90%' });
-      if (isDesktop) {
-        tl.set($('.nav_logo'), { color: 'white' }, '<');
-      }
-      if (isDesktop) {
-        tl.fromTo($('.nav_menu-button-mask'), { width: 0 }, { width: 'auto' }, '<');
-      }
-      tl.to($('.nav_logo-t'), { width: 'auto' }, '<');
-      tl.to($('.nav_logo-mask').eq(1), { width: 0 }, '<');
-      if (isDesktop) {
-        tl.fromTo(
-          $('[data-nav-btn]'),
-          { xPercent: '100%', opacity: 0 },
-          { xPercent: '0%', opacity: 1 },
-          '<'
-        );
-      }
       tl.fromTo($('.nav_bg'), { opacity: 0 }, { opacity: 1, duration: 0.1 }, '<');
       tl.set($('.nav_logo'), { color: 'inherit' });
     };
@@ -201,11 +184,10 @@ $(document).ready(function () {
           trigger: heroSteps.eq(1),
           start: 'top top',
           toggleActions: 'play none none reverse',
-          markers: true,
         },
       });
 
-      gsap.set(section, { opacity: 0, pointerEvents: 'none', marginTop: '-50vh' });
+      gsap.set(section, { opacity: 0, pointerEvents: 'none' });
       lenis.resize();
 
       tl.to(section, { pointerEvents: 'auto', opacity: 1, duration: 0, delay: 0.2 });
@@ -269,7 +251,6 @@ $(document).ready(function () {
           trigger: heroSteps.eq(1),
           start: '66% top',
           end: 'bottom center',
-          markers: true,
           toggleActions: 'play none none none',
           onLeaveBack: () => {
             $('.hp-steps_head-item').eq(2).removeClass('active');
@@ -319,7 +300,7 @@ $(document).ready(function () {
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: stepContent,
-          start: 'top center',
+          start: isDesktop ? 'top center' : 'center bottom',
           toggleActions: 'play none none reverse',
         },
       });
@@ -338,7 +319,7 @@ $(document).ready(function () {
           let tl8 = gsap.timeline({
             scrollTrigger: {
               trigger: stepContent,
-              start: 'top center',
+              start: isDesktop ? 'top center' : 'center bottom',
             },
             onComplete: () => {
               // Increment to next word or loop to start
