@@ -44,3 +44,35 @@ export const createSwiper = (componentSelector, swiperSelector, classSelector, o
     swipers[classSelector][index] = swiper;
   });
 };
+
+export const revealNav = () => {
+  let nav = $('.nav');
+  gsap.set(nav, {
+    yPercent: -100,
+    duration: 0.3,
+    onComplete: () => {
+      nav.addClass('fixed');
+      $('.nav_logo').removeClass('white');
+    },
+  });
+  setTimeout(() => {
+    gsap.to(nav, { yPercent: 0, duration: 0.3 });
+  }, 100);
+};
+
+export const revertNav = () => {
+  let nav = $('.nav');
+  gsap.to(nav, {
+    yPercent: -100,
+    duration: 0.3,
+    onComplete: () => {
+      nav.removeClass('fixed');
+    },
+  });
+};
+
+export const hideNav = () => {
+  let nav = $('.nav');
+  nav.removeClass('fixed');
+  nav.attr('style', '');
+};

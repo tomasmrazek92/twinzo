@@ -1,3 +1,5 @@
+import { revealNav, revertNav } from './utils/globalFunctions';
+
 // #region Prealoder
 let repeatCount = 0;
 let isWindowLoaded = false;
@@ -17,6 +19,7 @@ let preloader = gsap.timeline({
 const hidePreloader = () => {
   $('.page-load').fadeOut('slow', () => {
     lenis.start();
+    lenis.resize();
   });
 };
 
@@ -46,7 +49,7 @@ $(document).ready(function () {
     let isDesktop = $(window).width() > 991;
 
     if (isDesktop) {
-      gsap.set($('.nav_logo'), { color: 'white' }, '<');
+      $('.nav_logo').addClass('white');
     }
 
     // Functions
@@ -99,17 +102,15 @@ $(document).ready(function () {
           scrub: isDesktop ? 1 : false,
           onEnter: () => {
             $('.nav').addClass('dark');
-            $('.nav').addClass('pushed');
           },
           onLeaveBack: () => {
             $('.nav').removeClass('dark');
-            $('.nav').removeClass('pushed');
           },
         },
       });
-      tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '90%' });
-      tl.fromTo($('.nav_bg'), { opacity: 0 }, { opacity: 1, duration: 0.1 }, '<');
-      tl.set($('.nav_logo'), { color: 'inherit' });
+      if (isDesktop) {
+        tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '90%' });
+      }
     };
 
     // 01
@@ -124,8 +125,28 @@ $(document).ready(function () {
           start: 'top top',
           end: 'bottom top',
           scrub: 1,
+          onEnterBack: () => {
+            if (isDesktop) {
+              $('.nav').css('opacity', '0');
+            }
+            setTimeout(() => {
+              $('.nav').removeClass('fixed');
+            }, 200);
+            setTimeout(() => {
+              $('.nav').removeClass('pushed');
+              $('.nav').css('opacity', '1');
+            }, 300);
+          },
           onLeave: () => {
+            if (isDesktop) {
+              $('.nav').css('opacity', '0');
+            }
             adjustImages();
+            $('.nav').addClass('pushed');
+            setTimeout(() => {
+              $('.nav').addClass('fixed');
+              $('.nav').css('opacity', '1');
+            }, 300);
           },
         },
       });
@@ -356,11 +377,9 @@ $(document).ready(function () {
           toggleActions: 'play none none reverse',
           onEnter: () => {
             $('.nav').removeClass('dark');
-            $('.nav').addClass('fixed');
           },
           onLeaveBack: () => {
             $('.nav').addClass('dark');
-            $('.nav').removeClass('fixed');
           },
         },
       });
