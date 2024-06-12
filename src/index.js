@@ -33,7 +33,7 @@ function checkNav() {
   var scroll = $(window).scrollTop();
 
   if (!menuOpen) {
-    if (!$('.nav').attr('data-nav-home') === 'true') {
+    if ($('.nav').attr('data-nav-home') !== 'true') {
       if (scroll >= 250 && !$('.nav').hasClass('fixed')) {
         revealNav();
       } else if (scroll === 0) {
