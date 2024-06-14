@@ -4,19 +4,17 @@ let menuOpen = false;
 let openClass = 'open';
 
 $(document).on('click', function (event) {
-  if (!$(event.target).closest('.nav_ham, .nav_link').length) {
+  if (!$(event.target).closest('.nav_ham, .nav_menu').length) {
     if (menuOpen) {
       openMenu();
     }
   }
 });
 
-$('.nav_ham')
-  .add('.nav_link')
-  .on('click', function (event) {
-    event.stopPropagation();
-    openMenu();
-  });
+$('.nav_ham').on('click', function (event) {
+  event.stopPropagation();
+  openMenu();
+});
 
 const openMenu = () => {
   if ($(window).width() < 992) {
