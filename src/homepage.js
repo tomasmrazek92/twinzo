@@ -298,7 +298,11 @@ $(document).ready(function () {
             dataStepAnimation('data-paragraph-03');
             revealStepVideo(2);
           },
-          onLeave: flipPhone,
+          onLeave: () => {
+            if (isDesktop) {
+              flipPhone();
+            }
+          },
         },
       });
     };
@@ -325,6 +329,9 @@ $(document).ready(function () {
       });
 
       tl.to($('.hp-devices_desktop'), { opacity: 1 });
+      if (!isDesktop) {
+        tl.to($('.hp-devices_phone'), { opacity: 1 });
+      }
     };
 
     // 04
