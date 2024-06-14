@@ -8,13 +8,9 @@ let isWindowLoaded = false;
 let preloader = gsap.timeline({
   defaults: { duration: 0.5 },
   paused: true,
-  repeat: -1, // Will repeat indefinitely until we decide to stop it
-  onRepeat: function () {
-    repeatCount++; // Increment the counter each time the timeline repeats
-    if (repeatCount >= 2 && isWindowLoaded) {
-      this.repeat(0);
-      hidePreloader();
-    }
+  repeat: 1, // Will repeat indefinitely until we decide to stop it
+  onComplete: function () {
+    hidePreloader();
   },
 });
 
@@ -43,13 +39,6 @@ $(document).ready(function () {
     hidePreloader();
   }
 });
-
-// Set a timeout to hide the preloader if $(document).ready is not fired within 8 seconds
-setTimeout(function () {
-  if (!sessionStorage.getItem('preloader')) {
-    hidePreloader();
-  }
-}, 8000);
 
 // when repeatCount hits 2 start checking/waiting for the window load
 $(window).on('load', function () {
