@@ -32,7 +32,12 @@ preloader
 
 // Init
 $(document).ready(function () {
-  preloader.play();
+  if (!sessionStorage.getItem('preloader')) {
+    preloader.play();
+    sessionStorage.setItem('preloader', 'true');
+  } else {
+    hidePreloader();
+  }
 });
 
 // when repeatCount hits 2 start checking/waiting for the window load
@@ -131,6 +136,7 @@ $(document).ready(function () {
             }
             setTimeout(() => {
               $('.nav').removeClass('fixed');
+              $('.nav_logo').addClass('white');
             }, 200);
             setTimeout(() => {
               $('.nav').removeClass('pushed');
@@ -145,6 +151,7 @@ $(document).ready(function () {
             $('.nav').addClass('pushed');
             setTimeout(() => {
               $('.nav').addClass('fixed');
+              $('.nav_logo').removeClass('white');
               $('.nav').css('opacity', '1');
             }, 300);
           },
@@ -546,9 +553,6 @@ $(document).ready(function () {
       }
     }, 300)
   );
-  $(window).on('beforeunload', function () {
-    $(window).scrollTop(0);
-  });
 
   // #endregion
 });
