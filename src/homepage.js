@@ -44,6 +44,13 @@ $(document).ready(function () {
   }
 });
 
+// Set a timeout to hide the preloader if $(document).ready is not fired within 8 seconds
+setTimeout(function () {
+  if (!sessionStorage.getItem('preloader')) {
+    hidePreloader();
+  }
+}, 8000);
+
 // when repeatCount hits 2 start checking/waiting for the window load
 $(window).on('load', function () {
   isWindowLoaded = true; // Set the window load flag to true
