@@ -354,6 +354,7 @@ $(document).ready(function () {
             scrollTrigger: {
               trigger: stepContent,
               start: isDesktop ? 'top center' : 'center bottom',
+              toggleActions: 'play pause resume pause',
             },
             onComplete: () => {
               // Increment to next word or loop to start
