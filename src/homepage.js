@@ -18,8 +18,10 @@ let preloader = gsap.timeline({
 
 const hidePreloader = () => {
   $('.page-load').fadeOut('slow', () => {
-    lenis.start();
-    lenis.resize();
+    if (isDesktop) {
+      lenis.start();
+      lenis.resize();
+    }
   });
 };
 
@@ -216,7 +218,9 @@ $(document).ready(function () {
       });
 
       gsap.set(section, { opacity: 0, pointerEvents: 'none' });
-      lenis.resize();
+      if (isDesktop) {
+        lenis.resize();
+      }
 
       tl.to(section, { pointerEvents: 'auto', opacity: 1, duration: 0, delay: 0.2 });
     };
