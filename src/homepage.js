@@ -1,5 +1,7 @@
 import { revealNav, revertNav } from './utils/globalFunctions';
 
+let isDesktop = $(window).width() > 991;
+
 // #region Prealoder
 let repeatCount = 0;
 let isWindowLoaded = false;
@@ -53,7 +55,7 @@ $(document).ready(function () {
   // #region HeroAnimation
   function HeroAnimation() {
     let heroSteps = $('.hero_step');
-    let isDesktop = $(window).width() > 991;
+    isDesktop = $(window).width() > 991;
 
     if (isDesktop) {
       $('.nav_logo').addClass('white');
