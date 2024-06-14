@@ -16,6 +16,7 @@ let preloader = gsap.timeline({
 
 const hidePreloader = () => {
   $('.page-load').fadeOut('slow', () => {
+    $('html,body').removeClass('u-overflow-hidden');
     if (isDesktop) {
       lenis.start();
       lenis.resize();
@@ -33,6 +34,7 @@ preloader
 // Init
 $(document).ready(function () {
   if (!sessionStorage.getItem('preloader')) {
+    $('html,body').addClass('u-overflow-hidden');
     preloader.play();
     sessionStorage.setItem('preloader', 'true');
   } else {
