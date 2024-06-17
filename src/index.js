@@ -32,10 +32,10 @@ function checkNav() {
 
   if (!menuOpen) {
     if ($('.nav').attr('data-nav-home') !== 'true') {
-      if (scroll >= 250 && !$('.nav').hasClass('fixed')) {
-        revealNav();
+      if (scroll >= 100 && !$('.nav').hasClass('fixed')) {
+        $('.nav').addClass('fixed');
       } else if (scroll === 0) {
-        hideNav();
+        $('.nav').removeClass('fixed');
       }
     }
   }

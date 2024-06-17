@@ -1,14 +1,11 @@
-import { revealNav, revertNav } from './utils/globalFunctions';
-
 let isDesktop = $(window).width() > 991;
 
 // #region Prealoder
-let repeatCount = 0;
 let isWindowLoaded = false;
 let preloader = gsap.timeline({
   defaults: { duration: 0.5 },
   paused: true,
-  repeat: 1, // Will repeat indefinitely until we decide to stop it
+  repeat: 1,
   onComplete: function () {
     hidePreloader();
   },
@@ -116,7 +113,7 @@ $(document).ready(function () {
         },
       });
       if (isDesktop) {
-        tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '90%' });
+        tl.fromTo($('.container.cc-nav'), { maxWidth: '100%' }, { maxWidth: '113.2rem' });
       }
     };
 
@@ -295,6 +292,32 @@ $(document).ready(function () {
             $('.nav').removeClass('pushed');
             dataStepAnimation('data-paragraph-03');
             revealStepVideo(2);
+
+            // Videos Step 3 In syn
+            $(document).ready(function () {
+              // Find all video elements whose parent has the [data-exclude] attribute
+              var videos = $('video').filter(function () {
+                return $(this).parent().is('[data-exclude]');
+              });
+
+              var loadedCount = 0;
+
+              // Attach an event listener for the canplaythrough event to each video
+              videos.each(function () {
+                $(this).on('canplaythrough', function () {
+                  loadedCount++;
+                  if (loadedCount === videos.length) {
+                    // All videos are loaded, play them in sync
+                    videos.each(function () {
+                      this.play();
+                    });
+                  }
+                });
+
+                // Load the video
+                this.load();
+              });
+            });
           },
           onLeave: () => {
             if (isDesktop) {
@@ -565,6 +588,24 @@ $(document).ready(function () {
       }
     }, 300)
   );
+
+  // ___ Dark Sections on Homepage
+  const $nav = $('.nav');
+  const $target = $('.u-bg-black').add('.footer');
+
+  if ($nav.length && $target.length) {
+    $target.each(function () {
+      ScrollTrigger.create({
+        trigger: $(this),
+        start: isDesktop ? 'top 100px' : 'top 70px',
+        end: isDesktop ? 'bottom 100px' : 'bottom 70px',
+        onEnter: () => $nav.addClass('dark'),
+        onEnterBack: () => $nav.addClass('dark'),
+        onLeave: () => $nav.removeClass('dark'),
+        onLeaveBack: () => $nav.removeClass('dark'),
+      });
+    });
+  }
 
   // #endregion
 });
