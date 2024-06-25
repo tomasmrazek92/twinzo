@@ -63,7 +63,6 @@ $(document).ready(function () {
         targetEl = $("[js-scrollflip-element='target']").first();
 
       gsap.registerPlugin(ScrollTrigger, Flip);
-      ScrollTrigger.normalizeScroll(true);
 
       // SETUP TIMELINE
       let tl;
