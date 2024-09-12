@@ -1,5 +1,17 @@
 let isDesktop = $(window).width() > 991;
 
+// Simplified function to track virtual pageview only if a specific virtualPageTitle is not already fired
+const trackVirtualPageview = (virtualURL, virtualPageTitle) => {
+  // Check if the 'virtualPageTitle' exists in dataLayer with the specific value
+  if (!window.dataLayer.some((event) => event.virtualPageTitle === virtualPageTitle)) {
+    window.dataLayer.push({
+      event: 'virtualPageview',
+      virtualURL: virtualURL,
+      virtualPageTitle: virtualPageTitle,
+    });
+  }
+};
+
 // #region Prealoder
 let isWindowLoaded = false;
 let preloader = gsap.timeline({
@@ -227,6 +239,9 @@ $(document).ready(function () {
           trigger: heroSteps.eq(1),
           start: 'top top',
           toggleActions: 'play none none reverse',
+          onEnter: () => {
+            trackVirtualPageview('/see', 'see');
+          },
         },
       });
 
@@ -262,6 +277,7 @@ $(document).ready(function () {
           toggleActions: 'play none none reverse',
           toggleClass: { targets: $('.hp-steps_head-item').eq(1), className: 'active' },
           onEnter: () => {
+            trackVirtualPageview('/know', 'know');
             dataStepAnimation('data-paragraph-02');
             revealStepVideo(1);
           },
@@ -291,6 +307,7 @@ $(document).ready(function () {
             $('.nav').removeClass('pushed');
             dataStepAnimation('data-paragraph-03');
             revealStepVideo(2);
+            trackVirtualPageview('/manage', 'manage');
 
             // Videos Step 3 In syn
             $(document).ready(function () {
@@ -363,6 +380,9 @@ $(document).ready(function () {
           trigger: stepContent,
           start: isDesktop ? 'top center' : 'center bottom',
           toggleActions: 'play none none reverse',
+          onEnter: () => {
+            trackVirtualPageview('/anytime', 'anytime');
+          },
         },
       });
 
@@ -454,6 +474,12 @@ $(document).ready(function () {
     let heading = typesSection.find('h2');
     let headingText = heading.attr('data-headline-text').split(',');
     let image = $('.hp-types_visual .hp-types_phone-video');
+    let gtmEvents = [
+      ['/yourfactory', 'yourfactory'],
+      ['/yourconstruction', 'yourconstruction'],
+      ['/airport', 'airport'],
+      ['/warehouse', '/warehouse'],
+    ];
 
     const typesStepAnimation = (index) => {
       let tl = gsap.timeline();
@@ -461,6 +487,12 @@ $(document).ready(function () {
         yPercent: 50,
         opacity: 0,
         duration: 0.3,
+        onComplete: () => {
+          if (gtmEvents[index]) {
+            const [virtualURL, virtualPageTitle] = gtmEvents[index];
+            trackVirtualPageview(virtualURL, virtualPageTitle);
+          }
+        },
       });
       tl.to(image, { opacity: 0, duration: 0.3 }, '<');
       tl.to(heading, { text: headingText[index], duration: 0 });
@@ -514,6 +546,67 @@ $(document).ready(function () {
   // Init
   typeAnimation();
   typePocket();
+
+  // Extra calls for the GTM events
+  $('.hp-types_wall').each(function () {
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: $(this),
+        start: 'top 80%',
+        onEnter: () => {
+          trackVirtualPageview('/yourfactory', 'yourfactory');
+        },
+      },
+    });
+  });
+
+  $('#hp-cases').each(function () {
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: $(this),
+        start: 'top 80%',
+        onEnter: () => {
+          trackVirtualPageview('/usecases', 'usecases');
+        },
+      },
+    });
+  });
+
+  $('#hp-testimonials').each(function () {
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: $(this),
+        start: 'top 80%',
+        onEnter: () => {
+          trackVirtualPageview('/testimonials', 'testimonials');
+        },
+      },
+    });
+  });
+
+  $('#hp-michal').each(function () {
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: $(this),
+        start: 'top 80%',
+        onEnter: () => {
+          trackVirtualPageview('/meetmichal', 'meetmichal');
+        },
+      },
+    });
+  });
+
+  $('#get-in-countrol-cta').each(function () {
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: $(this),
+        start: 'top 80%',
+        onEnter: () => {
+          trackVirtualPageview('/getincontrol', 'getincontrol');
+        },
+      },
+    });
+  });
 
   // #endregion
 
