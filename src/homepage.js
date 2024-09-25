@@ -5,8 +5,8 @@ const trackVirtualPageview = (virtualURL, virtualPageTitle) => {
   // Check if the 'virtualPageTitle' exists in dataLayer with the specific value
   if (!window.dataLayer.some((event) => event.virtualPageTitle === virtualPageTitle)) {
     window.dataLayer.push({
-      event: 'virtualPageview',
-      virtualURL: virtualURL,
+      event: 'virtualPageView',
+      virtualPageURL: virtualURL,
       virtualPageTitle: virtualPageTitle,
     });
   }
