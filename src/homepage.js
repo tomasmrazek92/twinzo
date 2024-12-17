@@ -476,8 +476,6 @@ $(document).ready(function () {
     let image = $('.hp-types_visual .hp-types_phone-video');
     let gtmEvents = [
       ['/yourfactory', 'yourfactory'],
-      ['/yourconstruction', 'yourconstruction'],
-      ['/airport', 'airport'],
       ['/warehouse', '/warehouse'],
     ];
 
@@ -521,9 +519,6 @@ $(document).ready(function () {
       trigger: typesSection,
       start: 'top top',
       end: 'bottom bottom',
-      onEnterBack: () => {
-        typesStepAnimation(0);
-      },
     });
   }
   function typePocket() {
