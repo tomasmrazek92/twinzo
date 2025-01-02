@@ -43,3 +43,22 @@ function checkNav() {
 
 $(window).scroll(checkNav);
 checkNav();
+
+// #region scrollDisabler
+$('[scroll="disable"]').on('click', function () {
+  if (typeof lenis !== 'undefined') {
+    lenis.stop();
+  } else {
+    $('html').addClass('no-scroll');
+  }
+});
+
+$('[scroll="enable"]').on('click', function () {
+  if (typeof lenis !== 'undefined') {
+    lenis.start();
+  } else {
+    $('html').removeClass('no-scroll');
+  }
+});
+
+// #endregon
