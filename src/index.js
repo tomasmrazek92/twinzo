@@ -61,4 +61,21 @@ $('[scroll="enable"]').on('click', function () {
   }
 });
 
-// #endregon
+// #endregion
+
+// #region Countries
+$(document).ready(function () {
+  const selectElement = $('#country');
+  function createCountryOptions(countries) {
+    return countries.map((country) => {
+      const option = document.createElement('option');
+      option.value = country.Name;
+      option.textContent = country.Name;
+      option.setAttribute('data-code', country.Code);
+      return option;
+    });
+  }
+  const countryOptions = createCountryOptions(countries);
+  countryOptions.forEach((option) => selectElement.append(option));
+});
+// #endregion
