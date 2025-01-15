@@ -79,3 +79,43 @@ $(document).ready(function () {
   countryOptions.forEach((option) => selectElement.append(option));
 });
 // #endregion
+
+// #region Tracking
+$(document).ready(function () {
+  // Initialize dataLayer if it doesn't exist
+  window.dataLayer = window.dataLayer || [];
+
+  // Function to handle successful form submission
+  function handleFormSuccess(event, eventName) {
+    // Prevent handling the event multiple times
+    if (event.preventDefault) {
+      event.preventDefault();
+    }
+
+    // Push the event to dataLayer
+    window.dataLayer.push({
+      event: eventName,
+    });
+  }
+
+  // Find all forms with data-tracking-submit attribute
+  const trackingForms = $('form[data-tracking-submit]');
+
+  // Add success event listener to each form
+  trackingForms.each(function () {
+    const $form = $(this);
+    const eventName = $form.attr('data-tracking-submit');
+
+    // Check if form has Webflow form binding
+    if (Webflow && Webflow.push) {
+      Webflow.push(function () {
+        $form.on('submit', function (e) {
+          handleFormSuccess(e, eventName);
+        });
+      });
+    } else {
+      console.warn('Webflow form binding not found');
+    }
+  });
+});
+// #endregion
