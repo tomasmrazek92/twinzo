@@ -204,8 +204,10 @@ $(document).ready(function () {
         $emailInput.trigger('input');
 
         // Add hidden honeypot field if it doesn't exist
-        if (!$form.find('.honeypot').length) {
-          $form.append('<input type="text" class="honeypot" style="display:none" tabindex="-1">');
+        if (!$form.find('.hinput-roles').length) {
+          $form.append(
+            '<input type="text" class="input-roles" style="display:none" tabindex="-1">'
+          );
         }
 
         // Email input validation
@@ -258,13 +260,12 @@ $(document).ready(function () {
           } else {
             // Handle invalid submission
             if (!isUnderRateLimit) {
-              $messageElement.text('Too many attempts. Please try again later.');
+              $messageElement.find('p').text('Too many attempts. Please try again later.');
             } else if (!isHoneypotClean) {
-              $messageElement.text('Invalid submission detected.');
+              $messageElement.find('p').text('Invalid submission detected.');
             } else {
-              $messageElement.text('Please enter a valid business email address.');
+              $messageElement.find('p').text('Please enter a valid business email address.');
             }
-
             $submitButton.prop('disabled', true).addClass('deactivated');
             $emailInput.addClass('invalid-input');
             $messageElement.addClass('show');
