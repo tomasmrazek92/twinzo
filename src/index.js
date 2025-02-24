@@ -206,7 +206,7 @@ $(document).ready(function () {
         // Add hidden honeypot field if it doesn't exist
         if (!$form.find('.hinput-roles').length) {
           $form.append(
-            '<input type="text" class="input-roles" style="display:none" tabindex="-1">'
+            '<input class="input-roles" maxlength="256" name="role" data-name="role" placeholder="Your roles" type="text" id="input-roles" tabindex="-1">'
           );
         }
 
