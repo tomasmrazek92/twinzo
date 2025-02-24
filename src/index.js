@@ -223,11 +223,13 @@ $(document).ready(function () {
           $emailInput.toggleClass('invalid-input', !isValid && email.length > 0);
           $messageElement.toggleClass('show', !isValid && email.length > 0);
 
-          console.log('Email validation:', {
-            email,
-            isValid,
-            buttonDisabled: $submitButton.prop('disabled'),
-          });
+          /*
+        console.log('Email validation:', {
+          email,
+          isValid,
+          buttonDisabled: $submitButton.prop('disabled'),
+        });
+        */
         });
 
         // Block ALL default form submissions
@@ -246,13 +248,14 @@ $(document).ready(function () {
           const isHoneypotClean = formProtection.validation.checkHoneypot($form);
           const isUnderRateLimit = formProtection.rateLimiting.check(formId);
 
-          // Log validation state
-          console.log('Submission attempt:', {
-            isValidEmail,
-            isHoneypotClean,
-            isUnderRateLimit,
-            email,
-          });
+          /*
+        console.log('Submission attempt:', {
+          isValidEmail,
+          isHoneypotClean,
+          isUnderRateLimit,
+          email,
+        });
+        */
 
           if (isValidEmail && isHoneypotClean && isUnderRateLimit) {
             // If everything is valid, programmatically submit the form
