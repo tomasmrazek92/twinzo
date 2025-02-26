@@ -204,10 +204,8 @@ $(document).ready(function () {
         $emailInput.trigger('input');
 
         // Add hidden honeypot field if it doesn't exist
-        if (!$form.find('.hinput-roles').length) {
-          $form.append(
-            '<input class="input-roles" maxlength="256" name="role" data-name="role" placeholder="Your roles" type="text" id="input-roles" tabindex="-1">'
-          );
+        if (!$form.find('.honeypot').length) {
+          $form.append('<input type="text" class="honeypot" style="display:none" tabindex="-1">');
         }
 
         // Email input validation
@@ -223,24 +221,19 @@ $(document).ready(function () {
           $emailInput.toggleClass('invalid-input', !isValid && email.length > 0);
           $messageElement.toggleClass('show', !isValid && email.length > 0);
 
-          /*
-        console.log('Email validation:', {
-          email,
-          isValid,
-          buttonDisabled: $submitButton.prop('disabled'),
-        });
-        */
+          console.log('Email validation:', {
+            email,
+            isValid,
+            buttonDisabled: $submitButton.prop('disabled'),
+          });
         });
 
-        // Block ALL default form submissions
-        $form.on('submit', function (e) {
-          e.preventDefault();
-          return false;
-        });
+        // Instead of blocking all submits, we'll only handle our specific validation path
+        // via the button click, and let other libraries work normally
 
-        // Only allow submissions through button click
+        // Only validate and process submissions through button click
         $submitButton.on('click', function (e) {
-          e.preventDefault();
+          // Don't prevent default yet - only if our validation fails
 
           // Perform all validations
           const email = $emailInput.val();
@@ -248,38 +241,48 @@ $(document).ready(function () {
           const isHoneypotClean = formProtection.validation.checkHoneypot($form);
           const isUnderRateLimit = formProtection.rateLimiting.check(formId);
 
-          /*
-        console.log('Submission attempt:', {
-          isValidEmail,
-          isHoneypotClean,
-          isUnderRateLimit,
-          email,
-        });
-        */
+          // Log validation state
+          console.log('Submission attempt:', {
+            isValidEmail,
+            isHoneypotClean,
+            isUnderRateLimit,
+            email,
+          });
 
-          if (isValidEmail && isHoneypotClean && isUnderRateLimit) {
-            // If everything is valid, programmatically submit the form
-            $form.off('submit').submit(); // Remove our listener and submit
-          } else {
+          // Only block submission if validation fails
+          if (!(isValidEmail && isHoneypotClean && isUnderRateLimit)) {
+            e.preventDefault();
+
             // Handle invalid submission
             if (!isUnderRateLimit) {
-              $messageElement.find('p').text('Too many attempts. Please try again later.');
+              $messageElement.text('Too many attempts. Please try again later.');
             } else if (!isHoneypotClean) {
-              $messageElement.find('p').text('Invalid submission detected.');
+              $messageElement.text('Invalid submission detected.');
             } else {
-              $messageElement.find('p').text('Please enter a valid business email address.');
+              $messageElement.text('Please enter a valid business email address.');
             }
+
             $submitButton.prop('disabled', true).addClass('deactivated');
             $emailInput.addClass('invalid-input');
             $messageElement.addClass('show');
+            return false;
           }
+
+          // If we reach here, validation passed, let the form submit naturally
+          return true;
         });
 
-        // Block enter key everywhere in the form
-        $form.on('keydown', function (e) {
+        // We'll still block direct Enter key submissions for security
+        $form.on('keypress', function (e) {
           if (e.key === 'Enter' || e.keyCode === 13) {
-            e.preventDefault();
-            return false;
+            // Instead of blocking all Enter presses, check if validation would pass
+            const email = $emailInput.val();
+            const isValidEmail = email.length > 0 && formProtection.validation.isValidEmail(email);
+
+            if (!isValidEmail) {
+              e.preventDefault();
+              return false;
+            }
           }
         });
       });
